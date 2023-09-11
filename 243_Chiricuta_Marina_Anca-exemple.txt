@@ -1,0 +1,206 @@
+----ex11
+
+----sa se afiseze numele si varsta clientilor a caror comanda a avut parte de reducere > 15% 
+----si a fost transportata de o masina mare
+
+
+select nume_client+' '+prenume_client as nume, varsta_client as varsta from
+COMANDA c
+inner join CLIENT on c.id_client = CLIENT.id_client
+inner join REDUCERE on c.cod_reducere=REDUCERE.cod_reducere and REDUCERE.reducere_valoare>15
+inner join MASINA on c.id_masina= MASINA.id_masina and MASINA.tip_masina='mare' 
+
+
+----sa se afiseze numele intreg al clientului, id-ul, nr de produse si pretul unei comenzi, plus 
+----un mesaj care sa ofere opinia asupra preturilor folosind CASE
+
+
+select id_comanda, nume_client+' '+prenume_client as nume, suma_finala as suma, nr_produse,
+case when (suma_finala > 600) then 'produsele sunt de firma'
+when (suma_finala < 600 and suma_finala > 300) then 'produsele sunt scumpe'
+else 'produsele sunt accesibile'
+end as opinie_produse
+from (COMANDA inner join CLIENT on COMANDA.id_client=CLIENT.id_client)
+
+
+----sa se selecteze numele intreg, varsta si id-ul clientilor care au peste 18 ani si cheltuiesc in medie mai mult decat maj clientilor
+
+select concat(nume_client+' ' ,prenume_client) as nume, varsta_client as varsta, id_client as id_client from CLIENT
+where id_client in(select id_client from COMANDA
+					where suma_initiala>(select avg(suma_initiala) from COMANDA)) 
+		and id_client in(select id_client from CLIENT
+							where varsta_client>18)
+
+----sa se selecteze numele complet si id-ul clientilor care au dat comenzi si sunt nascuti in prima jumatate a anului
+
+
+select distinct nume_client+' '+prenume_client as nume, CLIENT.id_client as id_client from (CLIENT inner join COMANDA
+on CLIENT.id_client=COMANDA.id_client)
+where CLIENT.id_client in
+(select id_client  from CLIENT
+		where MONTH(data_nastere_client)<6)
+
+
+----sa se selecteze id-ul, numele intreg, functia si salariul total al primilor 15 angajati care au vechimea cea mai mare
+
+
+select tb.id_angajat,nume,functie, salariu_total from SALARIU inner join 
+(select top 15 * from (select id_angajat, id_magazin, upper(nume_angajat+' '+prenume_angajat) as nume, functie, getdate() as data_curenta, data_angajare from ANGAJAT) tb1
+order by datediff( yy, data_angajare, getdate()) desc)tb
+on tb.id_angajat=SALARIU.id_angajat
+order by salariu_total desc
+
+
+
+----sa se afle nr de comenzi al fiecarui curier
+
+select count(id_curier) as nr_comenzi, nume_curier from (select ANGAJAT.nume_angajat+' '+ANGAJAT.prenume_angajat as nume_curier, id_curier from COMANDA
+left join ANGAJAT on COMANDA.id_curier = ANGAJAT.id_angajat)tb
+group by nume_curier 
+
+
+
+----sa se afiseze produsele care au genul cel mai popular
+
+
+select id_produs, nume_produs, gen_produs from PRODUS 
+where gen_produs in(
+select top 1 gen from (select count(gen_produs) as nr, gen_produs as gen from PRODUS
+group by  gen_produs)tb order by nr desc)
+
+select * from produs
+
+--afisati numele si data de nastere pt clientii care au plasat cel putin o comanda în 
+--ultimele 6 luni dar in ultimele 3 liuni nu au facut nicio comanda, si clientii au intre 18 si 30 de ani
+
+WITH ClientiActivi AS (
+    SELECT DISTINCT id_client
+    FROM COMANDA
+    WHERE data_plasare >= DATEADD(MONTH, -6, GETDATE())
+), ClientiInactivi AS (
+    SELECT DISTINCT id_client
+    FROM COMANDA
+    WHERE data_plasare >= DATEADD(MONTH, -3, GETDATE())
+)
+SELECT C.nume_client, C.data_nastere_client
+FROM CLIENT C
+WHERE C.id_client IN (SELECT id_client FROM ClientiActivi)
+    AND C.id_client NOT IN (SELECT id_client FROM ClientiInactivi)
+    AND C.data_nastere_client BETWEEN DATEADD(YEAR, -30, GETDATE()) AND DATEADD(YEAR, -18, GETDATE());
+
+select * from client
+
+--12 implementarea a 3 operatii de actualizare sau suprimare a datelor utilizând subcereri.
+
+--1 acutualizarea salariului angajatilor de gen feminim cu 100 lei
+
+update salariu 
+set salariu_total = salariu_total +100 
+where id_angajat in (
+	select id_angajat
+	from angajat
+	where sex_angajat = 'femeie');
+	
+--2 sa se actualizeze stocul produselor de copii cu 5
+
+
+update detalii_stoc 
+set cantitate_produs_stoc = cantitate_produs_stoc +5  
+where id_produs in (
+	select id_produs
+	from produs
+	where gen_produs = 'copii');
+
+
+--3 sa se actualizeze marca de masini a masinilor mari in 'Mercedes'
+update MASINA
+set marca_masina = 'Mercedes'
+where tip_masina = 'mare'
+
+select * from masina
+
+--ex 13 
+--Crearea unei secvente ce va fi utilizataîn inserarea înregistrarilor în tabele.
+
+
+CREATE SEQUENCE pret_incr
+START WITH 100
+INCREMENT BY 100
+MINVALUE 0
+MAXVALUE 500
+CYCLE
+
+
+insert into produs values 
+('pantofi', 'dama', 'pantofi cu toc' , next value for pret_incr, 'pantofi cu toc de 13 cm');
+insert into produs values 
+('pantofi', 'barbat', 'pantofi de lac' , next value for pret_incr, 'pantofi negri');
+insert into produs values 
+('pantofi', 'copii', 'pantofi fetite' , next value for pret_incr, 'pantofi fetite cu fundita');
+insert into produs values 
+('top', 'dama', 'top cu paiete' , next value for pret_incr, 'top cu paiete din aur');
+insert into produs values 
+('vesta', 'barbat', 'vesta army' , next value for pret_incr, 'vesta vanatoare camuflaj');
+
+select * from produs
+
+--14
+
+create view [angajati_dedicati]
+as
+select a.id_angajat,a.id_magazin, a.nume_angajat+' '+a.prenume_angajat as nume, ore as total_ore from ANGAJAT a
+inner join (select sum(ore_lucrate) as ore, id_angajat from SALARIU 
+			group by id_angajat) tb
+on a.id_angajat=tb.id_angajat
+where ore>340
+
+
+select * from angajati_dedicati
+
+----operatie LMD nepermisa
+delete from angajati_dedicati 
+where angajati_dedicati.total_ore < 1
+
+----operatie LMD permisa
+
+select * from angajati_dedicati
+where angajati_dedicati.total_ore>= 1
+select * from PRODUS
+
+--15 
+CREATE INDEX idex_copii ON produs (gen_produs, pret_unit);
+
+select * from produs
+where gen_produs = 'copii' ;
+
+
+
+--16----------------------------------------------------
+--outer join pe 4 tabele din care dorim sa afisam toti clientii
+-- +comenzile lor chiar daaca produsele nu au fost livrate
+SELECT c.id_client, c.nume_client, co.id_comanda, co.data_plasare, d.id_comandaItem, p.id_produs, p.nume_produs
+FROM CLIENT c
+LEFT OUTER JOIN COMANDA co ON c.id_client = co.id_client
+LEFT OUTER JOIN DETALII_COMANDA d ON co.id_comanda = d.id_comanda
+LEFT OUTER JOIN PRODUS p ON d.id_produs = p.id_produs;
+
+--division1 -- dorim sa selectam clientii intre 16-20 ani
+(SELECT nume_client,prenume_client, varsta_client
+FROM CLIENT
+where varsta_client > 15)
+EXCEPT
+(SELECT nume_client, prenume_client, varsta_client
+FROM CLIENT
+where varsta_client > 20)
+
+
+----division2 -- selectam angajatii cu nr de ore intre 200-600
+
+(SELECT nume, total_ore
+FROM angajati_dedicati
+where total_ore > 200)
+EXCEPT
+(SELECT nume, total_ore
+FROM angajati_dedicati
+where total_ore > 600)
+

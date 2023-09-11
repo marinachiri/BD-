@@ -1,0 +1,435 @@
+CREATE TABLE MAGAZIN (id_magazin  INT IDENTITY(1,1) CONSTRAINT PKEY_MAGAZIN PRIMARY KEY,
+nume_magazin VARCHAR(100) CONSTRAINT nume_magazin NOT NULL,
+adresa_magazin VARCHAR(300) CONSTRAINT adresa_magazin NOT NULL,
+contact_magazin VARCHAR(50) CONSTRAINT contact_magazin NOT NULL,
+cod_postal VARCHAR(50) CONSTRAINT cod_postal NOT NULL,
+);
+INSERT INTO MAGAZIN VALUES
+('H&M','Str Soarelui nr 4, Bucuresti','0761 154 675','10013');
+INSERT INTO MAGAZIN VALUES
+('Mango','Str Profesor Minculescu nr 34, Iasi','0723 453 777','36649');
+INSERT INTO MAGAZIN VALUES
+('Adidas','Str Provincia 65-49, Bucuresti','0754 981 234','54024');
+INSERT INTO MAGAZIN VALUES
+('Zara','Str Marului 23, Cluj','0766 908 534','55437');
+INSERT INTO MAGAZIN VALUES
+('Gucci','Str Papadiei nr 5, Ploiesti','0732 333 444','28758');
+
+
+
+
+
+CREATE TABLE ANGAJAT (id_angajat INT IDENTITY(100,1) CONSTRAINT PKEY_ANGAJAT PRIMARY KEY,
+id_magazin INT CONSTRAINT fk_angajat FOREIGN KEY (id_magazin) REFERENCES MAGAZIN (id_magazin),
+nume_angajat VARCHAR(50) CONSTRAINT nume_angajat NOT NULL,
+prenume_angajat VARCHAR(50) CONSTRAINT prenume_angajat NOT NULL,
+varsta_angajat INT CONSTRAINT varsta_angajat NOT NULL,
+sex_angajat VARCHAR(50) CONSTRAINT sex_angajat NOT NULL,
+telefon_angajat VARCHAR(50) CONSTRAINT telefon_angajat NOT NULL,
+functie VARCHAR(50) CONSTRAINT functie NOT NULL,
+data_angajare DATE CONSTRAINT data_angajare NOT NULL
+);
+INSERT INTO ANGAJAT VALUES
+(1,'Pasare','Alexia',23,'femeie','0745 654 876','manager','2021-12-09');
+INSERT INTO ANGAJAT VALUES
+(1,'Luca','Stefan',42,'barbat','0787 765 119','curier','2022-01-03');
+INSERT INTO ANGAJAT VALUES
+(1,'Arima','Daria',27,'femeie','0742 098 675','casier','2022-01-12');
+INSERT INTO ANGAJAT VALUES
+(1,'Dima','Codrin',22,'barbat','0754 675 234','casier','2022-01-25');
+INSERT INTO ANGAJAT VALUES
+(1,'Bandu','Ilinca',18,'femeie','0756 871 876','femeie/om de serviciu','2022-04-21');
+INSERT INTO ANGAJAT VALUES
+(1,'Grigoriu','Carlos',30,'barbat','0755 543 672','contabil','2022-05-01');
+INSERT INTO ANGAJAT VALUES
+(2,'Petre','Sorin',34,'barbat','0732 671 544','manager','2021-12-23');
+INSERT INTO ANGAJAT VALUES
+(2,'Popescu','Andrei',52,'barbat','0736 766 644','curier','2022-01-07');
+INSERT INTO ANGAJAT VALUES
+(2,'Hirdea','Mihaela',33,'femeie','0725 471 334','casier','2022-02-27');
+INSERT INTO ANGAJAT VALUES
+(2,'Boboc','Mihai',36,'barbat','0754 970- 23','contabil','2022-02-01');
+INSERT INTO ANGAJAT VALUES
+(2,'Duca','Bianca',23,'femeie','0722 853 451','administrator','2022-05-13');
+INSERT INTO ANGAJAT VALUES
+(2,'Genes','Dana',19,'femeie','0745 311 666','casier','2022-02-20');
+INSERT INTO ANGAJAT VALUES
+(2,'Dumitrescu','Oana',21,'femeie','0747 986 909','asistent manager','2022-06-17');
+INSERT INTO ANGAJAT VALUES
+(2,'Opinca','Radu',27,'barbat','0744 226 746','secretar/a','2022-02-27');
+INSERT INTO ANGAJAT VALUES
+(3,'Cristescu','Mara',29,'femeie','0725 471 339','manager','2021-12-09');
+INSERT INTO ANGAJAT VALUES
+(3,'Culina','Catalina',39,'femeie','0725 471 337','curier','2022-02-09');
+INSERT INTO ANGAJAT VALUES
+(3,'Sulita','Petru',34,'barbat','0725 471 334','casier','2022-01-18');
+INSERT INTO ANGAJAT VALUES
+(3,'De luca','Rebecca',44,'femeie','0725 471 333','curier','2022-03-16');
+INSERT INTO ANGAJAT VALUES
+(3,'Battaglia ','Giulio',29,'barbat','0725 471 332','administrator','2022-05-18');
+INSERT INTO ANGAJAT VALUES
+(3,'Gambone','Simona',38,'femeie','0725 471 312','contabil','2022-04-18');
+INSERT INTO ANGAJAT VALUES
+(3,'Boca','Lucia ',47,'femeie','0725 471 390','secretar/a','2022-04-04');
+INSERT INTO ANGAJAT VALUES
+(4,'Gheorghe','Andrei',29,'barbat','0725 471 367','manager','2021-12-25');
+INSERT INTO ANGAJAT VALUES
+(4,'Vasile','Radu',38,'barbat','0725 471 432','curier','2022-02-08');
+INSERT INTO ANGAJAT VALUES
+(4,'Feraru','Mani',26,'femeie','0725 471 123','contabil','2022-01-26');
+INSERT INTO ANGAJAT VALUES
+(4,'Brandu','Fabian',28,'barbat','0725 471 344','curier','2022-02-08');
+INSERT INTO ANGAJAT VALUES
+(4,'Sandel','Julie',18,'femeie','0725 471 367','secretar/a','2022-05-25');
+INSERT INTO ANGAJAT VALUES
+(4,'Boscheti','Valeria ',19,'femeie','0725 471 338','administrator','2022-04-14');
+INSERT INTO ANGAJAT VALUES
+(5,'Raducan','Levis',39,'barbat','0755 471 334','manager','2021-12-15');
+INSERT INTO ANGAJAT VALUES
+(5,'Sorin','Toma',45,'barbat','0725 471 366','curier','2022-02-22');
+INSERT INTO ANGAJAT VALUES
+(5,'Bucur','George',24,'barbat','0725 471 399','casier','2022-03-17');
+INSERT INTO ANGAJAT VALUES
+(5,'Duduman','Katy',24,'femeie','0725 471 666','casier','2022-02-25');
+INSERT INTO ANGAJAT VALUES
+(5,'Vultur','Sorina',21,'femeie','0725 471 453','administrator','2022-03-26');
+INSERT INTO ANGAJAT VALUES
+(5,'Serban','Jenica ',34,'barbat','0725 471 543','curier','2022-04-25');
+
+
+
+
+
+
+
+CREATE TABLE SALARIU (id_angajat INT CONSTRAINT id_angajat REFERENCES ANGAJAT(id_angajat),
+data_incasare_salariu DATE,
+CONSTRAINT PKEY_SALARIU PRIMARY KEY(id_angajat, data_incasare_salariu),
+plata_cu_ora FLOAT CONSTRAINT plata_cu_ora NOT NULL,
+ore_lucrate INT CONSTRAINT ore_lucrate NOT NULL,
+bonus_tip VARCHAR(50),
+bonus_val FLOAT,
+salariu_total FLOAT,
+moneda VARCHAR(50)
+);
+INSERT INTO SALARIU VALUES
+(100,'2022-01-27',16.00,300,'bonus manager',134.78,3989.78,'lei');
+INSERT INTO SALARIU VALUES
+(110,'2022-01-27',18.00,230,'',0.0,3002.93,'lei');
+INSERT INTO SALARIU VALUES
+(104,'2022-01-27',15.00,290,'',0.0,3009.12,'lei');
+INSERT INTO SALARIU VALUES
+(111,'2022-01-27',19.00,180,'',0.0,2897.65,'lei');
+INSERT INTO SALARIU VALUES
+(112,'2022-01-27',16.00,301,'',0.0,4002.99,'lei');
+INSERT INTO SALARIU VALUES
+(117,'2022-02-27',18.00,381,'bonus curier',523.32,4552.93,'lei');
+INSERT INTO SALARIU VALUES
+(119,'2022-02-27',20.00,271,'',0.0,3452.09,'lei');
+INSERT INTO SALARIU VALUES
+(132,'2022-02-27',18.00,345,'bonus curier',457.87,4762.99,'lei');
+INSERT INTO SALARIU VALUES
+(126,'2022-03-27',19.00,341,'',0.0,4002.99,'lei');
+INSERT INTO SALARIU VALUES
+(123,'2022-03-27',20.00,299,'',0.0,4902.29,'lei');
+INSERT INTO SALARIU VALUES
+(130,'2022-04-27',17.00,334,'',0.0,3062.99,'lei');
+INSERT INTO SALARIU VALUES
+(116,'2022-04-27',17.00,321,'',0.0,3023.49,'lei');
+INSERT INTO SALARIU VALUES
+(120,'2022-04-27',17.00,311,'',0.0,4012.11,'lei');
+INSERT INTO SALARIU VALUES
+(121,'2022-04-27',16.00,331,'bonus manager',523.99,4402.99,'lei');
+INSERT INTO SALARIU VALUES
+(112,'2022-05-27',17.00,309,'',0.0,3212.49,'lei');
+INSERT INTO SALARIU VALUES
+(123,'2022-05-27',17.00,315,'',0.0,4032.34,'lei');
+
+
+
+
+
+CREATE TABLE MASINA (id_masina INT IDENTITY(700,1) CONSTRAINT PKEY_MASINA PRIMARY KEY,
+id_curier INT CONSTRAINT fk_masina FOREIGN KEY (id_curier) REFERENCES ANGAJAT(id_angajat),
+nr_inmatriculare VARCHAR(50) CONSTRAINT nr_inmatriculare UNIQUE NOT NULL,
+marca_masina VARCHAR(50) CONSTRAINT marca_masina NOT NULL,
+tip_masina VARCHAR(50) CONSTRAINT tip_masina NOT NULL
+);
+INSERT INTO MASINA VALUES
+(101,'B 213 GGF','Toyota','mica');
+INSERT INTO MASINA VALUES
+(107,'IS 43 GFD','Nissan','mare');
+INSERT INTO MASINA VALUES
+(107,'IS 23 GFD','Nissan','mare');
+INSERT INTO MASINA VALUES
+(115,'B 654 KKY','Ford','mica');
+INSERT INTO MASINA VALUES
+(122,'CJ 76 FDS','Mitsubishi','mica');
+INSERT INTO MASINA VALUES
+(124,'CJ 67 FDR','Ford','mare');
+INSERT INTO MASINA VALUES
+(132,'PH 56 DSE','Toyota','mare');
+INSERT INTO MASINA VALUES
+(128,'PH 78 FOP','Nissan','mica');
+
+
+
+
+
+
+
+CREATE TABLE CLIENT (id_client INT IDENTITY(4000,1) CONSTRAINT PKEY_CLIENT PRIMARY KEY,
+nume_client VARCHAR(50) CONSTRAINT nume_client NOT NULL,
+prenume_client VARCHAR(50) CONSTRAINT prenume_client NOT NULL,
+mail_client VARCHAR(50) CONSTRAINT mail_client UNIQUE NOT NULL,
+telefon_client VARCHAR(50) CONSTRAINT telefon_client NOT NULL,
+varsta_client INT CONSTRAINT varsta_client NOT NULL,
+data_nastere_client DATE CONSTRAINT data_nastere_client NOT NULL,
+adresa_client VARCHAR(100)
+);
+INSERT INTO CLIENT VALUES
+('Chiricuta','Marina','chi.marina@yahoo.com','0756234111',20,'2002-01-05','');
+INSERT INTO CLIENT VALUES
+('Buturuga','Patricia','patri_b@gmail.com','0733908002',21,'2001-09-09','');
+INSERT INTO CLIENT VALUES
+('Mihaila','Robert','mRobertt@yahoo,com','0754333123',15,'2007-12-19','');
+INSERT INTO CLIENT VALUES
+('Dobrescu','Diana','diaDobre@yahoo.com','0732654986',20,'2002-04-24','');
+INSERT INTO CLIENT VALUES
+('Furdui','Andrei','furduiandrei@gmail.com','0756123222',19,'2003-04-04','');
+
+
+
+
+
+
+
+CREATE TABLE PRODUS (id_produs INT IDENTITY(4500,1) CONSTRAINT PKEY_PRODUS PRIMARY KEY,
+tip_produs VARCHAR(50) CONSTRAINT tip_produs NOT NULL,
+gen_produs VARCHAR(20) CONSTRAINT gen_produs NOT NULL,
+nume_produs VARCHAR(50) CONSTRAINT nume_produs NOT NULL,
+pret_unit FLOAT CONSTRAINT pret_unit NOT NULL,
+descriere_produs VARCHAR(300)
+);
+INSERT INTO PRODUS VALUES
+('fusta','copii','fusta verde pt fetite',51.99,',');
+INSERT INTO PRODUS VALUES
+('rochie','dama','rochie roz',564.99,',');
+INSERT INTO PRODUS VALUES
+('top','dama','top cu franjuri',81.99,',');
+INSERT INTO PRODUS VALUES
+('adidasi','barbat','adidasi sport 1',651.99,',');
+INSERT INTO PRODUS VALUES
+('pantaloni','barbat','pantaloni drept',346.99,',');
+INSERT INTO PRODUS VALUES
+('caciula','copii','caciula de iarna',31.99,',');
+INSERT INTO PRODUS VALUES
+('geanta','dama','geanta de umar',1501.99,',');
+INSERT INTO PRODUS VALUES
+('esarfa','dama','esarfa accesoriu',78.99,',');
+INSERT INTO PRODUS VALUES
+('rochie','dama','rochie voal',981.99,',');
+
+
+
+
+CREATE TABLE REDUCERE (cod_reducere INT IDENTITY(100000,165438) CONSTRAINT PKEY_REDUCERE PRIMARY KEY,
+reducere_tip VARCHAR(50) CONSTRAINT reducere_tip NOT NULL,
+reducere_valoare INT CONSTRAINT reducere_val NOT NULL,
+detalii_reducere VARCHAR(100)
+);
+INSERT INTO REDUCERE VALUES
+('reducere pentru noi clienti',15,'');
+INSERT INTO REDUCERE VALUES
+('reducere de vara',30,'');
+INSERT INTO REDUCERE VALUES
+('reducere de toamna',50,'');
+INSERT INTO REDUCERE VALUES
+('reducere la produse de copii',15,'');
+INSERT INTO REDUCERE VALUES
+('reducere de angajat',30,'');
+INSERT INTO REDUCERE VALUES
+('reducere la bluze',20,'');
+
+
+
+
+
+CREATE TABLE STOC (id_stoc INT IDENTITY(1000000,1243) CONSTRAINT PKEY_STOC PRIMARY KEY,
+id_magazin INT CONSTRAINT fk_stoc FOREIGN KEY (id_magazin) REFERENCES MAGAZIN(id_magazin),
+data_livrare DATE CONSTRAINT data_livrare NOT NULL
+);
+INSERT INTO STOC VALUES
+(1,'2023-01-01');
+INSERT INTO STOC VALUES
+(2,'2023-01-01');
+INSERT INTO STOC VALUES
+(2,'2023-02-12');
+INSERT INTO STOC VALUES
+(3,'2023-01-01');
+INSERT INTO STOC VALUES
+(5,'2023-05-31');
+INSERT INTO STOC VALUES
+(4,'2023-05-16');
+
+
+
+
+
+
+CREATE TABLE PROFIT (id_magazin INT CONSTRAINT fk_profit FOREIGN KEY (id_magazin) REFERENCES MAGAZIN(id_magazin),
+data_incasare DATE CONSTRAINT data_incasare NOT NULL,
+CONSTRAINT PKEY_PROFIT PRIMARY KEY(id_magazin, data_incasare),
+suma_incasata FLOAT CONSTRAINT suma_incasata NOT NULL
+);
+INSERT INTO PROFIT VALUES
+(1,'2022-01-03',523.03);
+INSERT INTO PROFIT VALUES
+(4,'2022-04-12',249.77);
+INSERT INTO PROFIT VALUES
+(4,'2022-05-31',400.78);
+INSERT INTO PROFIT VALUES
+(3,'2022-02-28',333.23);
+INSERT INTO PROFIT VALUES
+(2,'2022-02-23',232.45);
+INSERT INTO PROFIT VALUES
+(5,'2022-03-12',509.01);
+INSERT INTO PROFIT VALUES
+(1,'2022-04-13',322.03);
+INSERT INTO PROFIT VALUES
+(3,'2022-03-21',432.7);
+
+
+
+
+
+
+
+CREATE TABLE SALE (id_reducere INT CONSTRAINT fk_reducere_sale FOREIGN KEY (id_reducere) REFERENCES REDUCERE(cod_reducere),
+id_magazin INT CONSTRAINT fk_magazin_sale FOREIGN KEY (id_magazin) REFERENCES MAGAZIN(id_magazin),
+data_inceput DATE CONSTRAINT data_inceput NOT NULL,
+data_sfarsit DATE CONSTRAINT data_sfarsit NOT NULL,
+CONSTRAINT PKEY_SALE PRIMARY KEY(id_reducere, id_magazin, data_inceput, data_sfarsit)
+);
+INSERT INTO SALE VALUES
+(100000,1,'2023-03-03','2023-03-12');
+INSERT INTO SALE VALUES
+(596314,2,'2023-01-09','2023-01-17');
+INSERT INTO SALE VALUES
+(761752,2,'2023-04-12','2023-04-23');
+INSERT INTO SALE VALUES
+(927190,3,'2023-05-11','2023-05-30');
+INSERT INTO SALE VALUES
+(100000,5,'2023-02-26','2023-02-27');
+INSERT INTO SALE VALUES
+(100000,1,'2023-03-07','2023-03-8');
+INSERT INTO SALE VALUES
+(596314,2,'2023-05-09','2023-05-17');
+INSERT INTO SALE VALUES
+(927190,2,'2023-03-12','2023-04-01');
+INSERT INTO SALE VALUES
+(265438,5,'2023-06-11','2023-06-15');
+INSERT INTO SALE VALUES
+(265438,5,'2023-08-26','2023-08-27');
+
+
+
+
+
+
+CREATE TABLE DETALII_STOC (id_stocItem INT IDENTITY(289099,1) CONSTRAINT PKEY_stocITEM PRIMARY KEY,
+id_stoc INT CONSTRAINT fk_stoc_stocITEM FOREIGN KEY (id_stoc) REFERENCES STOC(id_stoc),
+id_produs INT CONSTRAINT fk_produs_stocITEM FOREIGN KEY (id_produs) REFERENCES PRODUS(id_produs),
+cantitate_produs_stoc INT CONSTRAINT cantitate_produs_stoc NOT NULL,
+nume_produs_stoc VARCHAR(50) CONSTRAINT nume_produs_stoc NOT NULL
+);
+
+INSERT INTO DETALII_STOC VALUES
+(1000000,4507,23,'esarfa accesoriu');
+INSERT INTO DETALII_STOC VALUES
+(1000000,4501,31,'rochie roz');
+INSERT INTO DETALII_STOC VALUES
+(1002486,4507,34,'esarfa accesoriu');
+INSERT INTO DETALII_STOC VALUES
+(1004972,4508,5,'rochie voal');
+INSERT INTO DETALII_STOC VALUES
+(1004972,4506,22,'geanta de umar');
+INSERT INTO DETALII_STOC VALUES
+(1002486,4501,43,'rochie roz');
+INSERT INTO DETALII_STOC VALUES
+(1006215,4503,30,'adidasi sport 1');
+INSERT INTO DETALII_STOC VALUES
+(1006215,4504,12,'pantaloni drept');
+INSERT INTO DETALII_STOC VALUES
+(1003729,4500,10,'fusta verde pt fetite');
+INSERT INTO DETALII_STOC VALUES
+(1003729,4505,12,'caciula de iarna');
+
+
+
+
+CREATE TABLE COMANDA (id_comanda INT IDENTITY(1,1) CONSTRAINT PKEY_COMANDA PRIMARY KEY,
+id_client INT CONSTRAINT fk_client_comanda FOREIGN KEY (id_client) REFERENCES CLIENT(id_client),
+id_magazin INT CONSTRAINT fk_magazin_comanda FOREIGN KEY (id_magazin) REFERENCES MAGAZIN(id_magazin),
+id_curier INT CONSTRAINT fk_curier_comanda FOREIGN KEY (id_curier) REFERENCES ANGAJAT(id_angajat),
+id_masina INT CONSTRAINT fk_masina_comanda FOREIGN KEY (id_masina) REFERENCES MASINA(id_masina),
+data_plasare DATE CONSTRAINT data_plasare NOT NULL,
+data_sosire DATE,
+nr_produse INT CONSTRAINT nr_produse NOT NULL,
+suma_initiala FLOAT CONSTRAINT suma_initiala NOT NULL,
+cod_reducere INT CONSTRAINT fk_reducere_comanda FOREIGN KEY (cod_reducere) REFERENCES REDUCERE(cod_reducere),
+suma_finala FLOAT CONSTRAINT suma_finala NOT NULL,
+moneda_comanda VARCHAR(50) CONSTRAINT moneda_comanda NOT NULL, 
+status_comanda VARCHAR(50) CONSTRAINT status_comanda NOT NULL, 
+adresa VARCHAR(100) CONSTRAINT adresa NOT NULL
+);
+INSERT INTO COMANDA VALUES
+(4000,2,107,701,'2023-01-09','2023-01-15',2,4455.55,100000,51.99,'lei','livrata','Std Stefan cel Mare nr 45, Bacau');
+INSERT INTO COMANDA VALUES
+(4001,2,107,701,'2023-03-02','2023-03-14',3,78.09,265438,650.99,'lei','livrata','Std Stefan cel Mare nr 45, Bacau');
+INSERT INTO COMANDA VALUES
+(4003,3,115,703,'2023-04-23','2023-05-14',5,130.98,430876,564.99,'lei','livrata','Std Danescu Negru nr 2, Buzau');
+INSERT INTO COMANDA VALUES
+(4004,4,124,705,'2023-06-19','2023-06-20',3,1500.99,596314,651.99,'lei','livrata','Std Floriilor nr 5, Iasi');
+INSERT INTO COMANDA VALUES
+(4004,1,101,700,'2023-05-30','',2,234.99,761752,1500.99,'lei','in curs de livrare','Std Stefan cel Mare nr 23, Bacau');
+
+
+
+
+
+
+CREATE TABLE DETALII_COMANDA (id_comandaItem INT IDENTITY(10876,1) CONSTRAINT PKEY_comandaITEM PRIMARY KEY,
+id_comanda INT CONSTRAINT fk_comanda_comandaITEM FOREIGN KEY (id_comanda) REFERENCES COMANDA(id_comanda),
+id_client INT CONSTRAINT fk_client_comandaITEM FOREIGN KEY (id_client) REFERENCES CLIENT(id_client),
+id_produs INT CONSTRAINT fk_produs_comandaITEM FOREIGN KEY (id_produs) REFERENCES PRODUS(id_produs),
+nume_produs_comanda VARCHAR(50) CONSTRAINT nume_produs_comanda NOT NULL,
+cantitate INT CONSTRAINT cantitate NOT NULL,
+pret_Item FLOAT CONSTRAINT pret_Item NOT NULL,
+moneda_item VARCHAR(50) CONSTRAINT moneda_item NOT NULL
+);
+
+
+INSERT INTO DETALII_COMANDA VALUES
+(4,4004,4506,'geanta de umar',1,1501.99,'lei');
+INSERT INTO DETALII_COMANDA VALUES
+(4,4004,4502,'top cu franjuri',1,81.99,'lei');
+INSERT INTO DETALII_COMANDA VALUES
+(3,4003,4508,'rochie voal',1,981.99,'lei');
+INSERT INTO DETALII_COMANDA VALUES
+(3,4003,4501,'rochie roz',1,564.99,'lei');
+INSERT INTO DETALII_COMANDA VALUES
+(5,4004,4504,'pantaloni drept',1,346.99,'lei');
+INSERT INTO DETALII_COMANDA VALUES
+(5,4004,4503,'adidasi sport 1',1,651.99,'lei');
+INSERT INTO DETALII_COMANDA VALUES
+(1,4000,4506,'geanta de umar',1,1501.99,'lei');
+INSERT INTO DETALII_COMANDA VALUES
+(2,4001,4507,'esarfa accesoriu',2,78.99,'lei');
+INSERT INTO DETALII_COMANDA VALUES
+(2,4001,4504,'pantaloni drept',2,346.99,'lei');
+INSERT INTO DETALII_COMANDA VALUES
+(1,4000,4500,'fusta verde pt fetite',1,51.99,'lei');
+
+
+
